@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "../../axiosConfig"; // Cấu hình axios để gọi API
 import { toast, ToastContainer } from "react-toastify";
 import { FaStar } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
-import { IoMdHeart } from "react-icons/io";
+// import { FaRegHeart } from "react-icons/fa";
+// import { IoMdHeart } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 
 import { Link, useNavigate } from "react-router-dom"; // Import Link if you need navigation
@@ -11,7 +11,7 @@ import { getToken } from "../Login/app/static";
 
 function FavoriteList() {
   const [room, setRoom] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const fetchRooms = async () => {

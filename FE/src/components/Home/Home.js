@@ -1,24 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+// import axios from "axios";
 import Home1 from "../../assets/Home.jpg";
 import { RiFindReplaceLine } from "react-icons/ri";
 
 import Location from "./sortLocation.js";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { HomeList } from "./homesList.js";
 import PriceSlider from "./sortPrice.js";
 import SortByRating from "./sortRating.js";
 import { useRoom } from "../context/RoomContext.js";
-const items = [
-  { id: 1, name: "Product A", rating: 3 },
-  { id: 2, name: "Product B", rating: 5 },
-  { id: 3, name: "Product C", rating: 2 },
-  { id: 4, name: "Product D", rating: 4 },
-  { id: 5, name: "Product E", rating: 1 },
-];
+// const items = [
+//   { id: 1, name: "Product A", rating: 3 },
+//   { id: 2, name: "Product B", rating: 5 },
+//   { id: 3, name: "Product C", rating: 2 },
+//   { id: 4, name: "Product D", rating: 4 },
+//   { id: 5, name: "Product E", rating: 1 },
+// ];
 
 const Home = () => {
-  const [roleAdmin, setRoleAdmin] = useState();
+  // const [roleAdmin, setRoleAdmin] = useState();
   const { SortRoom } = useRoom();
 
   return (
