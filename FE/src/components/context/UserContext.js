@@ -13,13 +13,16 @@ export const UserProvider = ({ children }) => {
   const fetchProfile = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:3000/users/profile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`, // Use token for authentication
-        },
-      });
+      const response = await fetch(
+        "https://homifyme-server.onrender.com/users/profile",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`, // Use token for authentication
+          },
+        }
+      );
       const data = await response.json();
       console.log(data);
       if (!response.ok) {

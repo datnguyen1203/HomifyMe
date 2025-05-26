@@ -17,11 +17,14 @@ function FavoriteList() {
   const fetchRooms = async () => {
     try {
       const token = getToken(); // Lấy token từ hàm getToken
-      const response = await axios.get("http://localhost:3000/favorites", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Đưa Bearer token vào tiêu đề
-        },
-      });
+      const response = await axios.get(
+        "https://homifyme-server.onrender.com/favorites",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Đưa Bearer token vào tiêu đề
+          },
+        }
+      );
       setRoom(response.data.rooms);
     } catch (error) {
       toast.error("Không thể lấy danh sách phòng.");

@@ -4,7 +4,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { useEffect, useState, useRef } from "react";
 import { getToken } from "../Login/app/static";
 
-const API_URL = "http://localhost:3000/favorites";
+const API_URL = "https://homifyme-server.onrender.com/favorites";
 
 function Favorite() {
   const [rooms, setRooms] = useState([]);

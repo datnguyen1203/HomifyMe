@@ -8,13 +8,16 @@ function EditProfile({ setIsEditing }) {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch("http://localhost:3000/users/profile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
+      const response = await fetch(
+        "https://homifyme-server.onrender.com/users/profile",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch profile");
       }
@@ -33,14 +36,17 @@ function EditProfile({ setIsEditing }) {
 
   const handleSaveProfile = async () => {
     try {
-      const response = await fetch("http://localhost:3000/users/edit-profile", {
-        method: "PUT", // Phương thức PUT để chỉnh sửa thông tin
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`, // Thêm token để xác thực
-        },
-        body: JSON.stringify(user), // Truyền thông tin đã sửa trong body của request
-      });
+      const response = await fetch(
+        "https://homifyme-server.onrender.com/users/edit-profile",
+        {
+          method: "PUT", // Phương thức PUT để chỉnh sửa thông tin
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`, // Thêm token để xác thực
+          },
+          body: JSON.stringify(user), // Truyền thông tin đã sửa trong body của request
+        }
+      );
 
       if (!response.ok) {
         // Nếu phản hồi không thành công, in ra lỗi chi tiết từ server

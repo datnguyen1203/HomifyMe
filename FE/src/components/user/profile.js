@@ -15,13 +15,16 @@ const ProfilePage = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch("http://localhost:3000/users/profile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
+      const response = await fetch(
+        "https://homifyme-server.onrender.com/users/profile",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch profile");
       }
@@ -51,13 +54,16 @@ const ProfilePage = () => {
     formData.append("avatar", avatar);
 
     try {
-      const response = await fetch("http://localhost:3000/upload/upload-avatar-user", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        "https://homifyme-server.onrender.com/upload/upload-avatar-user",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         setError("Failed to upload avatar");
@@ -122,31 +128,41 @@ const ProfilePage = () => {
         {/* Phần hiển thị thông tin khác */}
         <div className="py-8">
           <div className="mb-4">
-            <label className="block text-sm font-semibold text-gray-500">Họ và tên</label>
+            <label className="block text-sm font-semibold text-gray-500">
+              Họ và tên
+            </label>
             <p className="text-[16px] font-semibold mt-[5px] text-black border-[1px] border-gray-300 px-4 py-2 rounded-md">
               {user.fullname}
             </p>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-semibold text-gray-500">Email</label>
+            <label className="block text-sm font-semibold text-gray-500">
+              Email
+            </label>
             <p className="text-[16px] font-semibold mt-[5px] text-black border-[1px] border-gray-300 px-4 py-2 rounded-md">
               {user.email}
             </p>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-semibold text-gray-500">Tên tài khoản</label>
+            <label className="block text-sm font-semibold text-gray-500">
+              Tên tài khoản
+            </label>
             <p className="text-[16px] font-semibold mt-[5px] text-black border-[1px] border-gray-300 px-4 py-2 rounded-md">
               {user.username}
             </p>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-semibold text-gray-500">Địa chỉ</label>
+            <label className="block text-sm font-semibold text-gray-500">
+              Địa chỉ
+            </label>
             <p className="text-[16px] font-semibold mt-[5px] text-black border-[1px] border-gray-300 px-4 py-2 rounded-md">
               {user.address}
             </p>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-600">Số ĐT</label>
+            <label className="block text-sm font-medium text-gray-600">
+              Số ĐT
+            </label>
             <p className="text-[16px] font-semibold mt-[5px] text-black border-[1px] border-gray-300 px-4 py-2 rounded-md">
               {user.phone}
             </p>
