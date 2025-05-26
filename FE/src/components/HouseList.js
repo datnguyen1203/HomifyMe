@@ -14,8 +14,16 @@ const RoomList = () => {
         const response = await axios.get("/rooms/all");
         setRooms(response.data);
       } catch (error) {
-        toast.error("Không thể lấy danh sách phòng.");
-        setError(error.message);
+        if (error.response && error.response.status === 404) {
+          toast.error(
+            error.response.data.message || "Không tìm thấy phòng nào."
+          );
+          setError("Không tìm thấy phòng nào.");
+          setRooms([]); // Set rooms to empty array if no rooms found
+        } else {
+          console.error("Error fetching rooms:", error);
+          toast.error("Lỗi khi lấy danh sách phòng.");
+        }
       } finally {
         setLoading(false);
       }
@@ -24,11 +32,9 @@ const RoomList = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-8 text-xl text-blue-500">Đang tải...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center py-8 text-xl text-red-600">Lỗi: {error}</div>;
+    return (
+      <div className="text-center py-8 text-xl text-blue-500">Đang tải...</div>
+    );
   }
 
   return (
@@ -36,19 +42,33 @@ const RoomList = () => {
       <h1 className="text-2xl font-bold mb-6">Danh sách phòng</h1>
       <ToastContainer />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {error && rooms.length === 0 && (
+          <div className="text-center text-red-500">{error}</div>
+        )}
         {rooms.map((room) => (
-          <div key={room._id} className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-2xl">
+          <div
+            key={room._id}
+            className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-2xl"
+          >
             <Link to={`/house-list/${room._id}`}>
               <div className="p-4">
-                <h2 className="text-xl font-semibold mb-2 text-gray-800">{room.name}</h2>
+                <h2 className="text-xl font-semibold mb-2 text-gray-800">
+                  {room.name}
+                </h2>
                 <p className="text-gray-700 mb-2">Giá: {room.price} VND</p>
                 <div className="flex">
                   <span>Trạng thái: </span> &nbsp;
-                  <p className={`text-gray-700 mb-2 ${room.status ? 'text-green-600' : 'text-red-600'}`}>
+                  <p
+                    className={`text-gray-700 mb-2 ${
+                      room.status ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
                     {room.status ? "Còn trống" : "Đã thuê"}
                   </p>
                 </div>
-                <p className="text-gray-700 mb-2">Số lượng còn lại: {room.room_quantity}</p>
+                <p className="text-gray-700 mb-2">
+                  Số lượng còn lại: {room.room_quantity}
+                </p>
               </div>
             </Link>
           </div>

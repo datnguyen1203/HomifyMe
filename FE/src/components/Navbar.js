@@ -93,6 +93,10 @@ const Navbar = ({ onSearch }) => {
             <Link to="/">Trang chủ</Link>
           </li>
           <li className="flex items-center space-x-2">
+            <HomeIcon className="w-6 h-6 text-orange-500" />
+            <Link to="/houses-list">Danh sách trọ</Link>
+          </li>
+          <li className="flex items-center space-x-2">
             <InformationCircleIcon className="w-6 h-6 text-orange-500" />
             <Link to="/about">Về chúng tôi</Link>
           </li>
@@ -107,7 +111,11 @@ const Navbar = ({ onSearch }) => {
             </li>
           ) : (
             <ul className="flex items-center gap-[120px]">
-              <Favorite />
+              {!profile?.admin && (
+                <li className="flex items-center space-x-2">
+                  <Favorite />
+                </li>
+              )}
               <li className="relative">
                 <img
                   src={profile.avatarUrl || "/path/to/default-avatar.png"}

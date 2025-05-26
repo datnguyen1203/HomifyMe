@@ -42,7 +42,12 @@ export function HomeList() {
         }
 
         const data = await response.json();
+        console.log("Favorite rooms data:", data);
         // Lưu danh sách ID phòng yêu thích
+        if (!data.rooms || !Array.isArray(data.rooms)) {
+          console.error("Invalid data format for favorite rooms");
+          return;
+        }
         const favoriteRoomIds = data.rooms.map((room) => room._id);
         setFavorites(favoriteRoomIds);
       } catch (error) {
@@ -129,141 +134,142 @@ export function HomeList() {
           TRỌ ƯU TIÊN
         </h1>
         <div className="flex flex-wrap gap-[20px] justify-center mb-[50px]">
-          {rooms.map((room) => (
-            <div
-              key={room._id}
-              style={{
-                width: "18%",
-                borderRadius: "8px",
-                overflow: "hidden",
-              }}
-            >
-              <div className="relative">
-                <img
-                  src={
-                    room.images.find((img) => img.main)?.url ||
-                    room.images[0]?.url
-                  }
-                  onClick={(e) => handleRoomClick(e, room._id)}
-                  alt={room.name}
-                  className="w-full h-[190px] object-cover rounded-[8px] cursor-pointer"
-                />
-                {favorites.includes(room._id) ? (
-                  <IoMdHeart
-                    fill="red"
-                    className="absolute bottom-2 right-2 cursor-pointer text-white w-[30px] h-[30px] transition-transform duration-200 ease-in-out transform hover:scale-125"
-                    onClick={() => handleDelete(room._id)}
+          {Array.isArray(rooms) &&
+            rooms.map((room) => (
+              <div
+                key={room._id}
+                style={{
+                  width: "18%",
+                  borderRadius: "8px",
+                  overflow: "hidden",
+                }}
+              >
+                <div className="relative">
+                  <img
+                    src={
+                      room.images.find((img) => img.main)?.url ||
+                      room.images[0]?.url
+                    }
+                    onClick={(e) => handleRoomClick(e, room._id)}
+                    alt={room.name}
+                    className="w-full h-[190px] object-cover rounded-[8px] cursor-pointer"
                   />
-                ) : (
-                  <FaRegHeart
-                    fill="white"
-                    className="absolute bottom-2 right-2 cursor-pointer text-white w-[25px] h-[25px] transition-transform duration-200 ease-in-out transform hover:scale-125"
-                    onClick={() => toggleFavorite(room._id)}
-                  />
-                )}
-              </div>
-
-              <div>
-                <h3
-                  className="hover:text-orange-500 cursor-pointer"
-                  onClick={(e) => handleRoomClick(e, room._id)}
-                  style={{
-                    margin: "10px 0",
-                    fontSize: "15px",
-                    fontWeight: "500",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    maxWidth: "230px",
-                  }}
-                >
-                  {room.name}
-                </h3>
-                <p
-                  style={{
-                    margin: "5px 0",
-                    color: "#555",
-                    fontSize: "12px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                  }}
-                >
-                  <label>Giá:</label>
-                  {room.room_quantity > 0 ? (
-                    <p
-                      style={{
-                        color: "red",
-                        fontWeight: "500",
-                        fontSize: "14px",
-                      }}
-                    >
-                      {room.price}
-                    </p>
+                  {favorites.includes(room._id) ? (
+                    <IoMdHeart
+                      fill="red"
+                      className="absolute bottom-2 right-2 cursor-pointer text-white w-[30px] h-[30px] transition-transform duration-200 ease-in-out transform hover:scale-125"
+                      onClick={() => handleDelete(room._id)}
+                    />
                   ) : (
-                    <p
-                      style={{
-                        color: "red",
-                        fontWeight: "500",
-                        fontSize: "14px",
-                      }}
-                    >
-                      Sold Out
-                    </p>
+                    <FaRegHeart
+                      fill="white"
+                      className="absolute bottom-2 right-2 cursor-pointer text-white w-[25px] h-[25px] transition-transform duration-200 ease-in-out transform hover:scale-125"
+                      onClick={() => toggleFavorite(room._id)}
+                    />
                   )}
-                </p>
+                </div>
 
-                <p
-                  className="mt-[10px] mb-[20px]"
-                  style={{
-                    fontSize: "12px",
-                    display: "flex",
-                    alignItems: "center",
-                    width: "500px",
-                    gap: "5px",
-                  }}
-                >
-                  <label className="font-semibold text-[14px] flex gap-[20px]">
-                    <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
-                    <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
-                    <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
-                    <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
-                    <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
-                  </label>
-                  <p className="mt-[3px]">{room.ratting}</p>
-                </p>
-                <p
-                  style={{
-                    margin: "5px 0",
-                    color: "#555",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                  }}
-                >
-                  <FaLocationDot />
-                  <p
+                <div>
+                  <h3
+                    className="hover:text-orange-500 cursor-pointer"
+                    onClick={(e) => handleRoomClick(e, room._id)}
                     style={{
+                      margin: "10px 0",
+                      fontSize: "15px",
+                      fontWeight: "500",
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      maxWidth: "200px",
-                      fontSize: "12px",
+                      maxWidth: "230px",
                     }}
                   >
-                    {room.address.map((addr, index) => (
-                      <p key={index}>
-                        {addr.detail && `${addr.detail}, `}
-                        {addr.ward && `${addr.ward}, `}
-                        {addr.district && `${addr.district}, `}
-                        {addr.city}
+                    {room.name}
+                  </h3>
+                  <p
+                    style={{
+                      margin: "5px 0",
+                      color: "#555",
+                      fontSize: "12px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                  >
+                    <label>Giá:</label>
+                    {room.room_quantity > 0 ? (
+                      <p
+                        style={{
+                          color: "red",
+                          fontWeight: "500",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {room.price}
                       </p>
-                    ))}
+                    ) : (
+                      <p
+                        style={{
+                          color: "red",
+                          fontWeight: "500",
+                          fontSize: "14px",
+                        }}
+                      >
+                        Sold Out
+                      </p>
+                    )}
                   </p>
-                </p>
+
+                  <p
+                    className="mt-[10px] mb-[20px]"
+                    style={{
+                      fontSize: "12px",
+                      display: "flex",
+                      alignItems: "center",
+                      width: "500px",
+                      gap: "5px",
+                    }}
+                  >
+                    <label className="font-semibold text-[14px] flex gap-[20px]">
+                      <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
+                      <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
+                      <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
+                      <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
+                      <FaStar className="text-yellow-400 w-[23px] h-[23px]" />
+                    </label>
+                    <p className="mt-[3px]">{room.ratting}</p>
+                  </p>
+                  <p
+                    style={{
+                      margin: "5px 0",
+                      color: "#555",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
+                  >
+                    <FaLocationDot />
+                    <p
+                      style={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        maxWidth: "200px",
+                        fontSize: "12px",
+                      }}
+                    >
+                      {room.address.map((addr, index) => (
+                        <p key={index}>
+                          {addr.detail && `${addr.detail}, `}
+                          {addr.ward && `${addr.ward}, `}
+                          {addr.district && `${addr.district}, `}
+                          {addr.city}
+                        </p>
+                      ))}
+                    </p>
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>

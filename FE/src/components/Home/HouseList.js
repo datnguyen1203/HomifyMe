@@ -46,13 +46,6 @@ const RoomList = () => {
       <div className="text-center py-8 text-xl text-blue-500">Đang tải...</div>
     );
   }
-
-  if (error) {
-    return (
-      <div className="text-center py-8 text-xl text-red-600">Lỗi: {error}</div>
-    );
-  }
-
   return (
     <div className="mx-auto flex flex-col items-center mb-[50px]  bg-gray-100">
       <div className=" flex justify-items-start w-[100%] ">

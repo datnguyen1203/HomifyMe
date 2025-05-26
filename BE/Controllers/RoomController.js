@@ -73,9 +73,9 @@ exports.getAllRooms = async (req, res) => {
 exports.getAvailableRooms = async (req, res) => {
   try {
     const rooms = await Room.find({ status: true });
-    if (rooms.length === 0) {
-      return res.status(404).json({ message: "No rooms found" });
-    }
+    // if (rooms.length === 0) {
+    //   return res.status(404).json({ message: "No rooms found" });
+    // }
     res.status(200).json(rooms);
   } catch (error) {
     console.log(error);

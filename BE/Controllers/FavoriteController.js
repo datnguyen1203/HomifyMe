@@ -37,10 +37,16 @@ exports.addFavorite = async (req, res) => {
 exports.getFavorite = async (req, res) => {
   try {
     const favorite = await Favorite.findOne({ user: req.user._id });
+    if (!favorite) {
+      return res.status(404).json({ message: "Favorite list not found" });
+    }
     const rooms = await Room.find({ _id: { $in: favorite.room } });
+    if (rooms.length === 0) {
+      return res.status(404).json({ message: "No rooms in favorite list" });
+    }
     const favoriteList = {
       user: req.user._id,
-      rooms: rooms,
+      rooms: rooms || [],
     };
     res.status(200).json(favoriteList);
   } catch (err) {
